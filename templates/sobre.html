@@ -1,0 +1,125 @@
+{% extends 'base.html' %} 
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/sobre.css') }}" />
+{% endblock extra_css%} 
+
+{% block content %}
+
+  <script>
+    function createParticles() {
+      const icons = ["💊", "⚕️", "💉", "⌬", "🩺"];
+      const container = document.body;
+
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.innerText = icons[Math.floor(Math.random() * icons.length)];
+
+        particle.style.left = Math.random() * 100 + "vw";
+        particle.style.animationDuration = Math.random() * 5 + 5 + "s";
+        particle.style.animationDelay = Math.random() * 5 + "s";
+
+        container.appendChild(particle);
+      }
+    }
+    window.onload = createParticles;
+  </script>
+
+  <div class="main-container">
+    <div class="header-section text-center">
+      <h1 class="brand-name">SabØr FⱯrmⱯciⱯ</h1>
+      <p class="text-muted fw-light" style="letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem">
+        Tudo pela resenha.
+      </p>
+    </div>
+
+    <div class="accordion" id="premiumAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tab1">
+            01. A Proposta
+          </button>
+        </h2>
+        <div id="tab1" class="accordion-collapse collapse show" data-bs-parent="#premiumAccordion">
+          <div class="accordion-body">
+            Seja bem vindo ao <strong>SabØr FⱯrmⱯciⱯ!</strong> Ao acessar e utilizar
+            esta plataforma, o usuário declara estar ciente de que o sistema
+            possui caráter exclusivamente educacional, sendo desenvolvido com a
+            finalidade de aprendizagem e demonstração de conceitos relacionados ao
+            desenvolvimento de software. O uso da aplicação deve ser realizado de
+            maneira ética e responsável, respeitando sua proposta acadêmica. O
+            usuário compromete-se a não utilizar o sistema para fins indevidos,
+            ilícitos ou que possam comprometer sua integridade, funcionamento ou
+            finalidade. O acesso e navegação nesta plataforma implicam na
+            aceitação integral destas condições de uso, podendo estas serem
+            atualizadas conforme necessário para melhor adequação ao projeto.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tab2">
+            02. Ética e Ciência
+          </button>
+        </h2>
+        <div id="tab2" class="accordion-collapse collapse" data-bs-parent="#premiumAccordion">
+          <div class="accordion-body">
+            É uma aplicação desenvolvida com o objetivo de auxiliar na
+            organização, cadastro e visualização de informações relacionadas a
+            medicamentos, servindo como ferramenta de apoio ao aprendizado de
+            tecnologias voltadas ao desenvolvimento web. Este sistema não possui
+            qualquer vínculo com instituições médicas, farmacêuticas ou
+            profissionais da área da saúde. Todas as informações inseridas e
+            exibidas possuem caráter meramente ilustrativo e não devem, em
+            hipótese alguma, ser utilizadas como base para diagnósticos,
+            tratamentos ou decisões médicas reais. O principal propósito da
+            aplicação é proporcionar aos desenvolvedores a prática de conceitos
+            como programação orientada a objetos, integração com banco de dados,
+            construção de interfaces web e organização de sistemas, contribuindo
+            para sua formação acadêmica e profissional.
+            <div class="disclaimer-box text-danger">
+              *Nota: Este projeto não substitui orientações médicas. Dados
+              ilustrativos para fins de estudo.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tab3">
+            03. Arquitetos do Sistema
+          </button>
+        </h2>
+        <div id="tab3" class="accordion-collapse collapse" data-bs-parent="#premiumAccordion">
+          <div class="accordion-body text-center">
+            <p class="mb-4">
+              A aplicação representa o esforço conjunto dos desenvolvedores na
+              aplicação prática dos conhecimentos adquiridos ao longo do curso,
+              envolvendo planejamento, desenvolvimento e implementação de
+              funcionalidades. Os autores não se responsabilizam por qualquer uso
+              indevido das informações disponibilizadas na plataforma, reforçando
+              que todo o conteúdo apresentado possui finalidade exclusivamente
+              didática. Ao utilizar o sistema, o usuário reconhece e concorda com
+              estas condições, isentando os desenvolvedores de qualquer
+              responsabilidade relacionada ao uso inadequado da aplicação.
+            </p>
+            <div class="dev-wrapper">
+              <p class="mb-4">
+                Este sistema foi desenvolvido como parte de um trabalho escolar
+                pelos alunos:
+              </p>
+            </div>
+            <div class="dev-wrapper">
+              <span class="dev-tag">Livinho</span>
+              <span class="dev-tag">D0G</span>
+              <span class="dev-tag">Geminho 1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

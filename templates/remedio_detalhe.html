@@ -1,0 +1,179 @@
+{% extends 'base.html' %} 
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/remedios.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/remedio_detalhe.css') }}" />
+{% endblock extra_css %} 
+
+{% block content %}
+  <div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+      <a href="{{ url_for('remedies.listar_remedios') }}"
+        class="btn btn-light rounded-pill px-4 shadow-sm text-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Voltar ao Catálogo
+      </a>
+      <div class="d-flex gap-2">
+        <a href="{{ url_for('remedies.editar_remedio', id=remedio.remedio_id) }}"
+          class="btn btn-warning rounded-pill px-4 shadow-sm fw-bold">Editar</a>
+        <form action="{{ url_for('remedies.excluir_remedio', id=remedio.remedio_id) }}" method="POST"
+          onsubmit="return confirm('Excluir permanentemente?');">
+          <button type="submit" class="btn btn-outline-danger rounded-pill px-4 shadow-sm fw-bold">
+            Excluir
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row g-5">
+      <div class="col-lg-5 text-center">
+        <div class="img-display mb-4">
+          {% if remedio.imagem_url %}
+            <img src="{{ url_for('static', filename=remedio.imagem_url) }}" class="img-fluid" alt="Produto"
+              style="max-height: 400px; object-fit: contain" />
+          {% else %}
+            <div class="py-5 text-muted">
+              <i class="bi bi-camera-fill display-1"></i>
+              <p>Imagem Indisponível</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold mb-3">{{ categoria_nome or 'Geral' }}</span>
+        <h1 class="display-4 fw-black mb-3">{{ remedio.nome_remedio }}</h1>
+        <p class="text-muted fs-5 mb-4">
+          {{ remedio.descricao_remedio or 'Este medicamento não possui descrição detalhada cadastrada.' }}
+        </p>
+
+        <div class="price-badge mb-5">R$ {{ remedio.valor_remedio }}</div>
+
+        {% if usuario_email %}
+          <form action="{{ url_for('remedies.favoritar', id=remedio.remedio_id) }}" method="POST" class="mb-5 d-inline-block">
+            <button type="submit" class="btn btn-light shadow-sm rounded-circle p-0 d-flex align-items-center justify-content-center" 
+                    style="width: 50px; height: 50px; border: none; background: white; transition: transform 0.2s ease;"
+                    onmouseover="this.style.transform='scale(1.1)'" 
+                    onmouseout="this.style.transform='scale(1)'"
+                    title="{{ 'Remover dos favoritos' if is_favorito else 'Adicionar aos favoritos' }}">
+              <i class="bi bi-heart{{ '-fill text-danger' if is_favorito else '' }}" 
+                style="font-size: 1.5rem; {{ 'color: #cbd5e1;' if not is_favorito else '' }}"></i>
+            </button>
+          </form>
+        {% endif %}
+        <div class="row g-3 mb-5">
+          <div class="col-6 col-md-4">
+            <div class="info-grid-item text-center">
+              <small class="d-block text-uppercase text-muted fw-bold">Laboratório</small><span>{{ remedio.lab_remedio }}</span>
+            </div>
+          </div>
+          <div class="col-6 col-md-4">
+            <div class="info-grid-item text-center">
+              <small class="d-block text-uppercase text-muted fw-bold">Ativo</small><span>{{ remedio.principio_remedio }}</span>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="info-grid-item text-center text-danger">
+              <small class="d-block text-uppercase fw-bold">Validade</small><span>{{ remedio.dataVal_remedio }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5 justify-content-center">
+      <div class="col-lg-9">
+        <div class="card product-main-card shadow-lg p-4 p-md-5">
+          <h3 class="fw-bold mb-5 d-flex align-items-center">
+            <i class="bi bi-chat-left-dots-fill me-3 text-primary"></i>Avaliações dos Clientes
+          </h3>
+
+          <div id="comments-container">
+            {% if comentarios %} 
+              {% for comentario in comentarios %}
+                <div class="comment-item {% if loop.index > 3 %}hidden-comment{% endif %} mb-4 card border-0 bg-light p-4 shadow-sm comment-card">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="avatar-circle me-3">
+                      {{ comentario.usuario_nome[0]|upper }}
+                    </div>
+                    <div>
+                      <h6 class="mb-0 fw-bold">{{ comentario.usuario_nome }}</h6>
+                      <small class="text-muted">Avaliação Verificada</small>
+                    </div>
+                  </div>
+                  <p class="mb-0 text-dark" style="font-size: 1.1rem; line-height: 1.6">
+                    "{{ comentario.texto }}"
+                  </p>
+                  <div class="d-flex justify-content-end gap-2 mt-3">
+                    {% if usuario_logado == comentario.usuario or session.get('adm')%}
+
+                      <a href="{{ url_for('remedies.editar_comentario', id=comentario.comentario_id) }}"
+                        class="btn btn-sm btn-outline-warning rounded-pill px-3">
+                        <i class="bi bi-pencil"></i> Editar
+                      </a>
+
+                      <form action="{{ url_for('remedies.excluir_comentario', id=comentario.comentario_id) }}" method="POST"
+                        onsubmit="return confirm('Deseja excluir este comentário?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                          <i class="bi bi-trash"></i> Excluir
+                        </button>
+                      </form>
+                    {% endif %}
+                    </div>
+                  </div>
+              {% endfor %} 
+              {% if comentarios|length > 3 %}
+                <div class="text-center mt-4">
+                  <button id="btn-show-more" class="btn btn-primary shadow">
+                    <i class="bi bi-plus-circle me-2"></i>Mostrar mais avaliações
+                  </button>
+                </div>
+              {% endif %} 
+            {% else %}
+              <div class="text-center py-5">
+                <p class="text-muted fs-5">
+                  Ainda não há comentários para este produto.
+                </p>
+              </div>
+            {% endif %}
+          </div>
+
+          {% if usuario_logado %}
+            <div class="mt-5 pt-5 border-top">
+              <h5 class="fw-bold mb-4">Escrever um comentário</h5>
+              <form action="{{ url_for('remedies.adicionar_comentario', remedio_id=remedio.remedio_id) }}" method="POST">
+                <div class="form-floating mb-3">
+                  <textarea class="form-control shadow-sm" name="texto" placeholder="Sua opinião" id="floatingTextarea"
+                    style="
+                      height: 120px;
+                      border-radius: 15px;
+                      border: none;
+                      background: #f1f3f5;
+                    "></textarea>
+                  <label for="floatingTextarea">O que você achou deste medicamento?</label>
+                </div>
+                <div class="text-end">
+                  <button type="submit" class="btn btn-primary px-5 py-3 rounded-pill fw-bold shadow">
+                    Enviar Comentário
+                  </button>
+                </div>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document
+      .getElementById("btn-show-more")
+      ?.addEventListener("click", function () {
+        const hiddenComments = document.querySelectorAll(".hidden-comment");
+        hiddenComments.forEach((comment) => {
+          comment.classList.remove("hidden-comment");
+          comment.classList.add("animate__animated", "animate__fadeInUp");
+        });
+        this.parentElement.style.display = "none";
+      });
+  </script>
+{% endblock content %}

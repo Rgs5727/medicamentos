@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/usuario_editar.css') }}" />
+{% endblock extra_css %}
+
+{% block content %}
+    <div class="container">
+        <div class="edit-container">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-primary py-3">
+                    <h5 class="text-white mb-0 text-center">Alterar Informações</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form action="{{ url_for('remedies.editar_usuario') }}" method="POST">
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small">E-MAIL DA CONTA</label>
+                            <div class="input-group">
+                                <span class="input-group-text field-immutable"><i class="bi bi-lock-fill"></i></span>
+                                        <input type="email" class="form-control field-immutable"
+                                    value="{{session['usuario_email'] }}" readonly disabled>
+                            </div>
+                            <div class="form-text">O e-mail não pode ser alterado.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small">NOME DE EXIBIÇÃO</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-person-fill text-primary"></i></span>
+                                    <input type="text" name="nome_user" class="form-control" value="{{ session['usuario_nome'] }}" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small">SUA SENHA ATUAL</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control field-immutable" id="senha_atual_view" value="Clique no olho para visualizar" readonly disabled>
+                                <button class="btn btn-outline-secondary" type="button" onclick="revealPassword()">
+                                    <i class="bi bi-eye-slash" id="toggle_view"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">Clique para ver sua senha atual caso tenha esquecido.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small">ALTERAR SENHA</label>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label small">Nova senha</label>
+                                    <div class="input-group">
+                                        <input type="text" name="nova_senha" id="nova_senha" class="form-control" placeholder="Nova senha">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('nova_senha')">
+                                            <i class="bi bi-eye-slash" id="toggle_nova_senha"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label small">Confirmar nova senha</label>
+                                    <div class="input-group">
+                                        <input type="text" name="confirm_senha" id="confirm_senha" class="form-control" placeholder="Confirmar nova senha">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('confirm_senha')">
+                                            <i class="bi bi-eye-slash" id="toggle_confirm_senha"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-text">Deixe em branco se não quiser alterar a senha. Sem necessidade de senha atual.</div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary py-2 fw-bold" id="btn-salvar">Salvar Alterações</button>
+                            <a href="{{ url_for('remedies.usuario_detalhe') }}" class="btn btn-link text-muted">Cancelar</a>
+                        </div>
+                    </form>
+                    <script>
+                        function togglePassword(fieldId) {
+                            const field = document.getElementById(fieldId);
+                            const toggle = document.getElementById('toggle_' + fieldId);
+                            if (field.type === 'password') {
+                                field.type = 'text';
+                                toggle.classList.remove('bi-eye');
+                                toggle.classList.add('bi-eye-slash');
+                            } else {
+                                field.type = 'password';
+                                toggle.classList.remove('bi-eye-slash');
+                                toggle.classList.add('bi-eye');
+                            }
+                        }
+
+                        function revealPassword() {
+                            const field = document.getElementById('senha_atual_view');
+                            const toggle = document.getElementById('toggle_view');
+                            const realPassword = '{{ session["usuario_senha"] }}';
+                            const placeholder = 'Clique no olho para visualizar';
+                            
+                            if (field.value === realPassword) {
+                                field.value = placeholder;
+                                field.readOnly = true;
+                                toggle.classList.remove('bi-eye');
+                                toggle.classList.add('bi-eye-slash');
+                            } else {
+                                field.value = realPassword;
+                                field.readOnly = false;
+                                toggle.classList.remove('bi-eye-slash');
+                                toggle.classList.add('bi-eye');
+                            }
+                        }
+
+                        document.getElementById('confirm_senha').addEventListener('input', function() {
+                            const nova = document.getElementById('nova_senha').value;
+                            const confirm = this.value;
+                            const btn = document.getElementById('btn-salvar');
+                            if (nova && confirm !== nova) {
+                                btn.disabled = true;
+                                btn.textContent = 'Senhas não coincidem';
+                            } else {
+                                btn.disabled = false;
+                                btn.textContent = 'Salvar Alterações';
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

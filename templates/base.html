@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SabØr FⱯrmⱯciⱯ</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/base.css') }}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/base.css') }}" />
+  {% block extra_css %} {% endblock extra_css%}
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom py-2">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="{{url_for('remedies.listar_remedios')}}">
+        <img src="{{url_for('static', filename='image/vitamina.png')}}" width="28" class="me-2" />
+        <span class="logo-text">SabØr FⱯrmⱯciⱯ</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <i class="bi bi-list fs-2 text-white"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a class="nav-link px-3" href="{{url_for('remedies.listar_remedios')}}">Início</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="{{url_for('remedies.cadastrar_categoria')}}">Categorias</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="{{url_for('remedies.sobre')}}">Sobre</a>
+          </li>
+          <li class="nav-item ms-lg-3 d-flex gap-2 align-items-center">
+            {% if session.get('usuario_email') %}
+              <a href="{{ url_for('remedies.usuario_detalhe') }}" class="avatar-link">
+                <div class="avatar-circle">
+                  {{ session.get('usuario_nome', 'U')[0]|upper }}
+                </div>
+              </a>
+              <a href="{{ url_for('remedies.logout') }}" class="btn-auth logout">
+                Sair
+              </a>
+            {% else %}
+              <a href="{{ url_for('remedies.login') }}" class="btn-auth login">
+                Entrar
+              </a>
+              <a href="{{ url_for('remedies.register') }}" class="btn-auth register">
+                Cadastrar
+              </a>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in
+    messages %}
+    <div class="custom-toast alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      <div class="d-flex align-items-center">
+        {% if category == 'success' %}
+        <i class="bi bi-check-circle-fill me-2"></i>
+        {% elif category == 'danger' %}
+        <i class="bi bi-x-circle-fill me-2"></i>
+        {% else %}
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {% endif %}
+
+        <div class="flex-grow-1">{{ message }}</div>
+      </div>
+
+      <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+  </div>
+
+  <main class="main-content">{% block content %} {% endblock content %}</main>
+
+  <footer class="footer text-center mt-5">
+    <div class="container">
+      <hr class="footer-line" />
+      <p class="footer-text">
+        &copy; 2026 SabØr FⱯrmⱯciⱯ — Todos os direitos reservados
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+.edit-container {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+.field-immutable {
+    background-color: #f8f9fa !important;
+    color: #6c757d;
+    cursor: not-allowed;
+    border: 1px solid #dee2e6;
+}

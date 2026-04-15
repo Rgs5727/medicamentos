@@ -1,0 +1,243 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f5f7ff, #eef1f9);
+    -webkit-font-smoothing: antialiased;
+}
+
+.navbar-custom {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.navbar-custom.scrolled {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.logo-text {
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+    transition: 0.3s;
+}
+
+.logo-text:hover {
+    opacity: 0.9;
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.85) !important;
+    font-weight: 500;
+    position: relative;
+    transition: 0.3s;
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: white;
+    transition: 0.3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+.btn-auth {
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.btn-auth.login {
+    background: white;
+    color: #4f46e5;
+}
+
+.btn-auth.login:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(255,255,255,0.4);
+}
+
+.btn-auth.register {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.btn-auth.register:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+}
+
+
+.btn-auth.logout {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.btn-auth.logout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+.user-greeting {
+    color: white;
+    font-weight: 500;
+    margin-right: 5px;
+}
+.custom-toast {
+    pointer-events: auto; 
+    position: relative;
+    z-index: 1060;
+    border: none !important; 
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: #ffffff !important;
+    margin-bottom: 10px;
+    animation: slideIn 0.4s ease-out;
+}
+
+.custom-toast.alert-success {
+    background-color: #10b981 !important; 
+}
+.custom-toast.alert-danger {
+    background-color: #ef4444 !important; 
+}
+
+.custom-toast.alert-warning {
+    background-color: #f59e0b !important; 
+}
+
+.custom-toast.alert-info {
+    background-color: #3b82f6 !important; 
+}
+
+.custom-toast .flex-grow-1 {
+    font-weight: 500;
+}
+
+.custom-toast .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+    box-shadow: none;
+}
+
+.custom-toast .btn-close:hover {
+    opacity: 1;
+}
+
+.custom-toast i {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.btn-close {
+    position: relative;
+    z-index: 10;
+    opacity: 0.8;
+}
+
+.btn-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.main-content {
+    min-height: 80vh;
+    animation: fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer {
+    padding-bottom: 20px;
+}
+
+.footer-line {
+    width: 60px;
+    margin: 20px auto;
+    border-top: 3px solid #6366f1;
+}
+
+.footer-text {
+    color: #6b7280;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.footer-text:hover {
+    color: #4f46e5;
+}
+
+@media (max-width: 768px) {
+    .nav-link {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .btn-auth {
+        width: 100%;
+        text-align: center;
+    }
+
+    .user-greeting {
+        display: none;
+    }
+}
+.avatar-link {
+    text-decoration: none;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.avatar-link:hover {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #ffffff, #e0e7ff); 
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}

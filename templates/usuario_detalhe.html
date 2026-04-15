@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/usuario_detalhe.css') }}" />
+{% endblock extra_css %}
+
+{% block content %}
+    <div class="container py-5">
+
+        <div class="profile-hero shadow-lg">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-5 fw-bold mb-2">Olá, {{ usuario_nome }}!</h1>
+                    <p class="lead opacity-75 mb-0">Bem-vindo ao seu painel de saúde e bem-estar.</p>
+                </div>
+                <div class="col-md-4 text-md-end mt-4 mt-md-0">
+                    <a href="{{ url_for('remedies.editar_usuario') }}"
+                        class="btn btn-light btn-lg rounded-pill px-4 fw-bold shadow-sm">
+                        <i class="bi bi-gear-fill me-2"></i>Editar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <div class="info-card">
+                    <div class="row g-4">
+                        <div class="col-md-6 border-end-md">
+                            <div class="d-flex align-items-center gap-4">
+                                <div class="avatar-circle"
+                                    style="width: 100px; height: 100px; font-size: 2.5rem; background: #f1f5f9; color: #4f46e5; border: 4px solid #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
+                                    {{ usuario_nome[0]|upper }}
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold text-dark mb-1">{{ usuario_nome }}</h4>
+                                    <p class="text-muted mb-2"><i
+                                            class="bi bi-envelope-fill me-2"></i>{{session['usuario_email']}}</p>
+                                    <span class="badge rounded-pill bg-success bg-opacity-10 text-success px-3 py-2">
+                                        <i class="bi bi-patch-check-fill me-1"></i> Conta Ativa
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="stat-box">
+                                        <i class="bi bi-heart-fill text-danger fs-3 mb-2"></i>
+                                        <h3 class="fw-bold mb-0 text-dark">{{ favoritos|length }}</h3>
+                                        <small class="text-muted text-uppercase fw-bold">Favoritos</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-box">
+                                        <i class="bi bi-calendar-check text-primary fs-3 mb-2"></i>
+                                        <h3 class="fw-bold mb-0 text-dark">2026</h3>
+                                        <small class="text-muted text-uppercase fw-bold">Desde</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="bi bi-bookmark-star-fill text-warning me-2"></i>Seus Favoritos
+            </h3>
+            <span class="text-muted">{{ favoritos|length }} itens salvos</span>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            {% if favoritos %}
+            {% for remedio in favoritos %}
+            <div class="col">
+                <div class="card product-card h-100 shadow-sm"
+                    onclick="location.href='{{ url_for('remedies.ver_remedio', id=remedio.remedio_id)}}'"
+                    style="cursor: pointer">
+
+                    <div class="position-relative">
+                        <form action="{{ url_for('remedies.favoritar', id=remedio.remedio_id) }}" method="POST" 
+                            class="position-absolute top-0 start-0 m-3" style="z-index: 10;"
+                            onclick="event.stopPropagation();">
+                            <button type="submit" class="btn btn-light shadow-sm rounded-circle p-0 d-flex align-items-center justify-content-center" 
+                                    style="width: 38px; height: 38px; border: none; background: white; transition: transform 0.2s ease;"
+                                    onmouseover="this.style.transform='scale(1.1)'" 
+                                    onmouseout="this.style.transform='scale(1)'">
+                                <i class="bi bi-heart-fill text-danger" style="font-size: 1.2rem;"></i>
+                            </button>
+                        </form>
+
+                        {% if remedio.imagem_url %}
+                        <img src="{{ url_for('static', filename=remedio.imagem_url) }}" class="card-img-top"
+                            style="height: 200px; object-fit: cover; border-radius: 20px 20px 0 0;" />
+                        {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center"
+                            style="height: 200px; border-radius: 20px 20px 0 0;">
+                            <i class="bi bi-capsule text-muted fs-1"></i>
+                        </div>
+                        {% endif %}
+
+                        {% if remedio.promocao_remedio %}
+                        <span
+                            class="position-absolute top-0 end-0 m-3 badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill shadow-sm">
+                            PROMOÇÃO
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body d-flex flex-column p-4">
+                        <h5 class="card-title fw-bold text-dark mb-3">{{ remedio.nome_remedio }}</h5>
+
+                        <div class="mt-auto d-flex align-items-center justify-content-between">
+                            <span class="price-tag">R$ {{ remedio.valor_remedio }}</span>
+                            <i class="bi bi-arrow-right-circle-fill text-primary fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-12 text-center py-5 bg-white rounded-4 shadow-sm">
+                <img src="{{ url_for('static', filename='image/vazio.png') }}" alt="Vazio"
+                    style="width: 120px; opacity: 0.5;" class="mb-3">
+                <h5 class="text-muted">Você ainda não favoritou nenhum remédio.</h5>
+                <p class="text-muted small mb-4">Explore nosso catálogo e salve seus itens preferidos aqui!</p>
+                <a href="{{ url_for('remedies.listar_remedios') }}" class="btn btn-primary rounded-pill px-4">Explorar
+                    Agora</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

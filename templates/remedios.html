@@ -1,0 +1,101 @@
+{% extends 'base.html' %} 
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/remedios.css') }}" />
+{% endblock extra_css %} 
+
+{% block content %}
+  <div class="container py-4">
+    <div class="row align-items-center mb-4 g-3">
+      <div class="col-md-4">
+        <h3 class="text-dark mb-0 fw-bold">&#128138; Catálogo de Remédios</h3>
+        <p class="text-muted small mb-0">Explore os medicamentos disponíveis</p>
+      </div>
+      <div class="col-md-5">
+        {% if usuario_logado %}
+          <form action="{{ url_for('remedies.listar_remedios') }}" method="GET" class="d-flex shadow-sm">
+            <input type="text" name="q" class="form-control" placeholder="Buscar por nome..."
+              value="{{ request.args.get('q', '') }}" />
+            <button type="submit" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 72 72">
+              <path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path>
+              </svg></button>
+          </form>
+        {% endif %}
+      </div>
+      <div class="col-md-3 text-end">
+        <a href="{{url_for('remedies.cadastrar_remedio')}}" class="btn btn-primary shadow-sm w-100">
+          &#10133; Adicionar Remédio
+        </a>
+      </div>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 product-grid">
+      {% for remedio in remedios %}
+        <div class="col">
+          <div class="card product-card h-100 shadow-sm"
+            onclick="location.href='{{ url_for('remedies.ver_remedio', id=remedio.remedio_id)}}'" style="cursor: pointer">
+            {% if remedio.imagem_url %}
+              <img src="{{ url_for('static', filename=remedio.imagem_url) }}" class="card-img-top" alt="{{ remedio.nome_remedio }}" style="height: 200px; object-fit: cover" />
+            {% else %}
+              <div class="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style="height: 200px">
+                <span class="text-muted">Sem imagem</span>
+              </div>
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+              {% set categoria_nome = categorias_map.get(remedio.categoria_remedio, remedio.categoria_remedio) %} 
+              {% if categoria_nome %}
+                <span class="badge bg-info text-dark mb-2" style="width: fit-content">
+                  {{ categoria_nome }}
+                </span>
+              {% endif %}
+              <h5 class="card-title fw-bold text-dark">
+                {{ remedio.nome_remedio }}
+              </h5>
+              <p class="card-text text-muted small">
+                {{ remedio.descricao_remedio|truncate(80) or 'Sem descrição disponível' }}
+              </p>
+              <div class="mt-auto">
+                {% if remedio.promocao_remedio %}
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="alert alert-warning d-flex align-items-center mb-0" role="alert">
+                      <svg xmlns="http://www.w3.org/2000/svg" style="width: 18px; height: 18px; margin-right: 5px" fill="currentColor" viewBox="0 0 16 16">
+                        <pathd="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                      </svg>
+                      <strong>R$ {{ remedio.valor_remedio }}</strong>
+                    </div>
+                  </div>
+                  <span class="badge bg-warning text-dark">Promoção</span>
+                {% else %}
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <span class="fs-4 fw-bold text-dark">
+                      R$ {{ remedio.valor_remedio }}
+                    </span>
+                  </div>
+                {% endif %}
+                <div class="mb-2">
+                  {% if remedio.destaque_remedio %}
+                    <span class="badge bg-primary text-dark">Destaque</span>
+                  {% endif %} 
+                  {% if remedio.lancamento_remedio %}
+                    <span class="badge bg-secondary">Lançamento</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% if usuario_email %}
+              <form action="{{ url_for('remedies.favoritar', id=remedio.remedio_id) }}" method="POST" class="position-absolute top-0 start-0 m-3" style="z-index: 10;">
+                <button type="submit" class="btn btn-light shadow-sm rounded-circle p-0" style="width: 38px; height: 38px; border: none; background: white; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                  <i class="bi bi-heart{{ '-fill text-danger' if remedio.favorito else '' }}"style="font-size: 1.2rem; {{ 'color: #cbd5e1;' if not remedio.favorito else '' }}"></i>
+                </button>
+              </form>
+            {% endif %}
+          </div> 
+        </div>
+
+        {% else %}
+          <div class="col-12 text-center py-5">
+            <p class="text-muted fs-5">&#128138; Nenhum remédio cadastrado ainda.</p>
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}

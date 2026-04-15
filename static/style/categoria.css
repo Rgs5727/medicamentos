@@ -1,0 +1,33 @@
+.category-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 280px; 
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.category-title {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    width: 100%;
+    margin-bottom: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word; 
+    hyphens: auto; 
+}
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    flex-shrink: 0; 
+}
+
+.category-card form {
+    margin: 0;
+    padding: 0;
+}
