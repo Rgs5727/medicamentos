@@ -60,8 +60,8 @@ Antes de começar, você vai precisar ter instalado:
 ### 📥 Clonando o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/Rgs5727/medicamentos.git
+cd medicamentos
 ```
 
 ---
@@ -104,13 +104,17 @@ pip install flask
 
 ### 🗄️ Configurando o banco de dados
 
-Execute o script SQL:
+O projeto usa MySQL. Configure variáveis de ambiente no `.env`:
 
-```bash
-sqlite3 banco.db < script.sql
+```
+MYSQL_HOST=localhost
+MYSQL_USER=seu_usuario
+MYSQL_PASSWORD=sua_senha
+MYSQL_DATABASE=medicamentos
+MYSQL_PORT=3306
 ```
 
-Ou utilize seu gerenciador de banco preferido para rodar o arquivo `script.sql`.
+Execute `script.sql` no seu MySQL para criar as tabelas.
 
 ---
 
@@ -125,12 +129,6 @@ Acesse no navegador:
 ```
 http://localhost:5000
 ```
-
----
-
-## 📸 Demonstração
-
-*(Adicione aqui prints do sistema futuramente para deixar o projeto mais atrativo)*
 
 ---
 
