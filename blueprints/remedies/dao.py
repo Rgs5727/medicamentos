@@ -3,7 +3,11 @@ from .models import Remedio, Categoria, Usuario, Comentario
 import mysql.connector
 
 class RemedioDAO:
-    # construtor
+
+
+
+    
+
     def __init__(self):
         self.__db_config = {
             'host': os.getenv('MYSQL_HOST'),
@@ -14,14 +18,14 @@ class RemedioDAO:
         }
 
     def __get_connection(self):
+
         return mysql.connector.connect(**self.__db_config)
 
-    # getter
     @property
     def arquivo_caminho(self):
         return self.__arquivo_caminho
 
-    # setter
+
     @arquivo_caminho.setter
     def arquivo_caminho(self, v):
         self.__arquivo_caminho = v
@@ -167,9 +171,11 @@ class RemedioDAO:
             cursor.execute(sql, valores)
             conexao.commit()
         finally:
+
             cursor.close()
+
             conexao.close()
-            
+
     def buscar_usuario_por_email(self, email):
         sql = 'SELECT email, senha, nome_user, adm FROM USUARIOS WHERE email = %s'
         valores = (email,)
@@ -225,7 +231,7 @@ class RemedioDAO:
     
     def atualizar_usuario(self, atualizar_usuario):
         return self.atualizar_usuario_com_senha(atualizar_usuario.email, atualizar_usuario.nome, atualizar_usuario.senha)
-    
+
     def salvar_comentario(self, comentario):
         sql = 'INSERT INTO COMENTARIOS (usuario, id_medicamento, texto) VALUES (%s, %s, %s)'
         valores = (
@@ -342,7 +348,8 @@ class RemedioDAO:
         finally:
             cursor.close()
             conexao.close()
-        
+            
+
     def carregar_categoria(self):
         sql = 'SELECT id_categoria, nome FROM CATEGORIAS'
 
@@ -489,7 +496,6 @@ class RemedioDAO:
         finally:
             cursor.close()
             conexao.close()
-    
     
     def remover_favorito(self, usuario_email, remedio_id):
         sql = 'DELETE FROM FAVORITOS WHERE usuario = %s AND id_medicamento = %s'
