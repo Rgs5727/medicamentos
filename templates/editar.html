@@ -47,11 +47,11 @@
 
             <div class="col-md-6 mb-3">
               <label class="form-label">Data de Fabricação</label>
-              <input type="date" name="dataF" class="form-control" value="{{remedio.dataFab_remedio}}" />
+              <input type="date" name="dataF" class="form-control" value="{{ remedio.dataFab_remedio.split('/')|reverse|join('-') if remedio.dataFab_remedio else '' }}" />
             </div>
             <div class="col-md-6 mb-3">
               <label class="form-label">Data de Validade</label>
-              <input type="date" name="dataV" class="form-control" value="{{remedio.dataVal_remedio}}" />
+              <input type="date" name="dataV" class="form-control" value="{{ remedio.dataVal_remedio.split('/')|reverse|join('-') if remedio.dataVal_remedio else '' }}" />
             </div>
 
             <div class="col-md-4 mb-3">
