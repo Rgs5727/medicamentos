@@ -50,10 +50,7 @@ class RemedioController:
         lista = self.__dao.carregar_remedios(termo_busca if termo_busca else None)
         comentarios_por_remedio = self.__dao.carregar_comentarios_por_medicamento()
         categorias = self.__dao.carregar_categoria()
-        categorias_map = {}
-        for categoria in categorias:
-            categorias_map[categoria.id_categoria] = categoria.nome_categoria
-        categorias_map[str(categoria.id_categoria)] = categoria.nome_categoria
+        categorias_map = {cat.id_categoria: cat.nome_categoria for cat in categorias}
         
         usuario_email = session.get('usuario_email')
         for remedio in lista:
@@ -116,8 +113,7 @@ class RemedioController:
             return redirect(url_for("remedies.listar_remedios"))
 
         categorias = self.__dao.carregar_categoria()
-        categorias_map = {categoria.id_categoria: categoria.nome_categoria for categoria in categorias}
-        categorias_map.update({str(categoria.id_categoria): categoria.nome_categoria for categoria in categorias})
+        categorias_map = {cat.id_categoria: cat.nome_categoria for cat in categorias}
         categoria_nome = categorias_map.get(remedio.categoria_remedio, remedio.categoria_remedio)
 
         comentarios_por_remedio = self.__dao.carregar_comentarios_por_medicamento()
@@ -249,13 +245,8 @@ class RemedioController:
         if not check_password_hash(usuario.senha, senha):
             flash("Usuário ou senha incorretos.", "danger")
             return self.preparar_login()
-        print("EMAIL:", usuario.email)
-        print("ADM BRUTO:", usuario.adm)
-        print("TIPO:", type(usuario.adm))
-
         session["adm"] = str(usuario.adm).strip() in ["1", "True", "true"]
         session["usuario_senha_plain"] = senha
-        print("SESSION ADM:", session["adm"])
 
         session["usuario_email"] = usuario.email
         session["usuario_nome"] = usuario.nome
