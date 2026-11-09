@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+  <style>
+    body {
+        background-color: #f8faff;
+    }
+
+    /* Cabeçalho Premium */
+    .page-header-box {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 30px 40px;
+        box-shadow: 0 10px 30px rgba(59, 86, 255, 0.02);
+        border: 1px solid #eef1f9;
+    }
+
+    /* Cards de Categoria Minimalistas e Fluidos */
+    .category-card {
+        background: #ffffff;
+        border-radius: 24px !important;
+        border: 1px solid #eef1f9 !important;
+        box-shadow: 0 10px 25px rgba(59, 86, 255, 0.02);
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .category-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 35px rgba(59, 86, 255, 0.08);
+        border-color: rgba(59, 86, 255, 0.2) !important;
+    }
+
+    /* Box esférico para o Ícone */
+    .icon-wrapper {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        background-color: #f3f6ff;
+        border: 1px solid rgba(59, 86, 255, 0.04);
+        transition: all 0.35s ease;
+    }
+
+    .category-card:hover .icon-wrapper {
+        background-color: #eef1ff;
+        transform: scale(1.06) rotate(3deg);
+    }
+
+    /* Tipografia do Título */
+    .category-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #1a1d26;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        text-align: center;
+        letter-spacing: -0.3px;
+    }
+
+    /* Grid de Ações do Administrador */
+    .admin-actions-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+        margin-top: auto;
+        padding-top: 18px;
+        border-top: 1px solid #f1f3f9;
+    }
+
+    .admin-actions-grid .btn {
+        border-radius: 12px;
+        padding: 8px 12px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+    }
+
+    /* Botões clean com micro-interações */
+    .btn-edit-action {
+        background-color: #f4f6fc;
+        color: #3B56FF;
+    }
+    .btn-edit-action:hover {
+        background-color: #3B56FF;
+        color: #ffffff;
+    }
+
+    .btn-delete-action {
+        background-color: #fff5f5;
+        color: #ef4444;
+    }
+    .btn-delete-action:hover {
+        background-color: #ef4444;
+        color: #ffffff;
+    }
+
+    /* Customização do botão de criação superior */
+    .btn-create-premium {
+        border-radius: 14px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(59, 86, 255, 0.15);
+        transition: all 0.2s ease;
+    }
+    .btn-create-premium:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(59, 86, 255, 0.25);
+    }
+  </style>
+{% endblock extra_css %}
+
+{% block content %}
+  <div class="container py-5">
+
+    <div class="page-header-box d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-5">
+      <div>
+        <h2 class="h3 fw-bold text-dark mb-1">Categorias</h2>
+        <p class="text-muted small mb-0">Gerencie e organize as divisões de medicamentos do catálogo.</p>
+      </div>
+      <a href="{{ url_for('categorias.cadastrar_categoria') }}" class="btn btn-primary btn-create-premium px-4 py-2_5 text-decoration-none">
+        <i class="bi bi-plus-lg me-1"></i> Nova Categoria
+      </a>
+    </div>
+
+    <div id="msg" class="mb-3"></div>
+
+    <!-- preenchido via JS (categorias.js) a partir de GET /api/categorias -->
+    <div id="categorias-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
+        data-usuario-adm="{{ 'true' if session.get('adm') else 'false' }}">
+        <div class="col-12 text-center py-5" id="categorias-empty-state">
+          <p class="text-muted italic">Carregando categorias...</p>
+        </div>
+      </div>
+
+  </div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/categorias.js') }}"></script>
+{% endblock extra_js %}

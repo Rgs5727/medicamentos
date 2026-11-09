@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h3 class="card-title mb-4">Entrar</h3>
+            <!--
+              A partir do 3º bimestre este formulário não usa mais
+              method="POST" nem action: quem trata o envio agora é o
+              JavaScript (static/js/auth.js), que pega os valores, monta
+              um JSON e manda para a API com fetch. Por isso o id no
+              <form> (para o JS encontrar) e a div de erro logo abaixo.
+            -->
+            <div id="login-erro" class="alert alert-danger d-none" role="alert"></div>
+            <form id="form-login">
+              <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="email" name="email" required />
+              </div>
+              <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" name="senha" required />
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            </form>
+            <div class="mt-2 text-end">
+              <a href="{{ url_for('usuarios.esqueci_senha') }}" class="text-muted small">
+                Esqueci minha senha
+              </a>
+            </div>
+            <div class="mt-3 text-center">
+              <span>Não tem conta?
+                <a href="{{ url_for('usuarios.register') }}">Cadastre-se</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block extra_js %}
+  <!-- api.js já foi carregado pelo base.html; aqui só liga o formulário à API -->
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock extra_js %}

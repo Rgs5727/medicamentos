@@ -1,0 +1,264 @@
+/* ==========================================================================
+   Página de Moderação — Identidade Visual Integrada
+   ========================================================================== */
+
+.page-moderation {
+    animation: fadeInPage 0.5s ease-out;
+}
+
+/* --- Cabeçalho Visual (Estilo Hero Adaptado) --- */
+.mod-header-section {
+    position: relative;
+    background: linear-gradient(135deg, #f3f6ff 0%, #eef2ff 50%, #f8f5ff 100%);
+    border-radius: 24px;
+    padding: 40px 32px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    border: 1px solid #eef1f9;
+}
+
+.mod-header-section::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(59, 86, 255, 0.08) 0%, transparent 70%);
+    top: -50px;
+    right: -50px;
+    pointer-events: none;
+}
+
+.mod-header-flex {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.mod-header-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: rgba(59, 86, 255, 0.1);
+    color: var(--sabor-primary, #3B56FF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px rgba(59, 86, 255, 0.15);
+}
+
+.mod-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--sabor-text, #1a1d26);
+    margin-bottom: 6px;
+}
+
+.mod-description {
+    font-size: 1rem;
+    color: var(--sabor-text-muted, #6b7280);
+    margin: 0;
+}
+
+/* --- Subtítulos das Seções --- */
+.mod-section-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--sabor-text, #1a1d26);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mod-section-title .badge {
+    background: var(--sabor-primary, #3B56FF);
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border-radius: 30px;
+}
+
+/* --- Grid e Layout de Cards --- */
+.mod-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.mod-card {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #f0f2f8;
+    box-shadow: 0 4px 20px rgba(26, 29, 38, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.mod-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(59, 86, 255, 0.12);
+}
+
+/* Indicador de Pendente */
+.mod-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--sabor-primary, #3B56FF);
+}
+
+.mod-card-body {
+    padding: 24px;
+    flex: 1;
+}
+
+.mod-card-id {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--sabor-primary, #3B56FF);
+    background: rgba(59, 86, 255, 0.08);
+    padding: 4px 10px;
+    border-radius: 30px;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.mod-card-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--sabor-text, #1a1d26);
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+.mod-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--sabor-text-muted, #6b7280);
+    margin-bottom: 10px;
+}
+
+.mod-meta-item:last-of-type {
+    margin-bottom: 0;
+}
+
+.mod-meta-icon {
+    color: var(--sabor-primary, #3B56FF);
+    opacity: 0.7;
+    width: 16px;
+    text-align: center;
+}
+
+/* --- Rodapé de Ações do Card --- */
+.mod-card-actions {
+    background: #fdfeff;
+    border-top: 1px solid #f0f2f8;
+    padding: 16px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.mod-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    width: 100%;
+}
+
+.mod-btn-approve {
+    background-color: #e6f7ed;
+    color: #1f9254;
+}
+
+.mod-btn-approve:hover {
+    background-color: #1f9254;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(31, 146, 84, 0.25);
+}
+
+.mod-btn-reject {
+    background-color: #feeef0;
+    color: #de354c;
+}
+
+.mod-btn-reject:hover {
+    background-color: #de354c;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(222, 53, 76, 0.25);
+}
+
+/* --- Estado Vazio Elegante (Empty State) --- */
+.mod-empty-state {
+    background: #fff;
+    border-radius: 20px;
+    padding: 56px 24px;
+    text-align: center;
+    border: 1px solid #f0f2f8;
+    box-shadow: 0 4px 20px rgba(26, 29, 38, 0.04);
+}
+
+.mod-empty-icon {
+    width: 80px;
+    height: 80px;
+    background: #f4f6fa;
+    color: #a1a8b3;
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+}
+
+.mod-empty-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--sabor-text, #1a1d26);
+    margin-bottom: 8px;
+}
+
+.mod-empty-text {
+    font-size: 0.95rem;
+    color: var(--sabor-text-muted, #6b7280);
+    margin: 0;
+}
+
+/* --- Animações --- */
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividade de Alinhamentos */
+@media (max-width: 575.98px) {
+    .mod-header-section {
+        padding: 24px 20px;
+    }
+    .mod-header-flex {
+        flex-direction: column;
+        text-align: center;
+    }
+}

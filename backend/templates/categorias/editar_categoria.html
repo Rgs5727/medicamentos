@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/cadastro.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/categoria.css') }}" />
+{% endblock extra_css %}
+
+{% block content %}
+  <div class="container py-5 d-flex justify-content-center">
+    <div class="card card-cadastro shadow-sm border-0">
+      <div class="card-body p-4 p-md-5">
+        <div class="header-cadastro mb-4">
+          <h3 class="fw-bold text-dark">Editar Categoria</h3>
+          <p class="text-muted small">Atualize o nome e imagem da categoria.</p>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+          <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 mb-4">
+              <label class="form-label">Nome da categoria <span class="text-danger">*</span></label>
+              <input type="text" name="nome" class="form-control" placeholder="Ex: Analgésico"
+                value="{{ categoria.nome_categoria }}" required />
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary btn-save flex-fill py-2 fw-bold">
+              Atualizar Categoria
+            </button>
+            <a href="{{ url_for('categorias.cadastrar_categoria') }}" class="btn btn-light border flex-fill py-2">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

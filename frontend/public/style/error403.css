@@ -1,0 +1,274 @@
+.error403-page {
+    min-height: calc(100vh - 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    background:
+        radial-gradient(circle at top right, rgba(59, 86, 255, 0.08), transparent 42%),
+        radial-gradient(circle at bottom left, rgba(91, 33, 182, 0.06), transparent 38%);
+}
+
+.error403-card {
+    width: 100%;
+    max-width: 920px;
+    padding: 40px;
+    background: #fff;
+    border: 1px solid #eef1f9;
+    border-radius: 24px;
+    box-shadow: var(--sabor-shadow-nav, 0 8px 32px rgba(26, 29, 38, 0.06));
+    animation: error403-enter 0.55s ease-out both;
+}
+
+.error403-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.error403-col-main {
+    text-align: center;
+    padding-right: 20px;
+    border-right: 1px solid #eef1f9;
+}
+
+.error403-col-info {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.error403-icon-wrap {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: var(--sabor-primary-light, #eef1ff);
+    color: var(--sabor-primary, #3B56FF);
+    font-size: 1.75rem;
+    animation: error403-pulse 2.8s ease-in-out infinite;
+}
+
+.error403-code {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--sabor-primary, #3B56FF);
+}
+
+.error403-badge {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.error403-badge-guest {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.error403-badge-user {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.error403-badge-admin {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.error403-title {
+    margin: 14px 0 10px;
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--sabor-text, #1a1d26);
+}
+
+.error403-lead {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--sabor-text-muted, #6b7280);
+}
+
+.error403-subtitle {
+    margin: 0 0 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sabor-text-muted, #6b7280);
+}
+
+.error403-reasons {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 16px 18px;
+    background: #f8f9fc;
+    border: 1px solid #eef1f9;
+    border-radius: 16px;
+}
+
+.error403-reasons li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--sabor-text, #1a1d26);
+}
+
+.error403-reasons li + li {
+    margin-top: 10px;
+}
+
+.error403-reasons i {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--sabor-primary, #3B56FF);
+}
+
+.error403-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #eef1ff 0%, #f8f5ff 100%);
+    border: 1px solid #e0e7ff;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #4338ca;
+}
+
+.error403-tip i {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 1rem;
+}
+
+.error403-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.error403-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.error403-btn:hover {
+    transform: translateY(-1px);
+}
+
+.error403-btn-primary {
+    background: var(--sabor-primary, #3B56FF);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(59, 86, 255, 0.22);
+}
+
+.error403-btn-primary:hover {
+    color: #fff;
+    background: #2f46d4;
+}
+
+.error403-btn-secondary {
+    background: #fff;
+    color: var(--sabor-text, #1a1d26);
+    border: 1px solid #e5e7eb;
+}
+
+.error403-btn-secondary:hover {
+    color: var(--sabor-primary, #3B56FF);
+    border-color: #c7d2fe;
+}
+
+.error403-btn-ghost {
+    background: transparent;
+    color: var(--sabor-text-muted, #6b7280);
+    border: 1px solid transparent;
+}
+
+.error403-btn-ghost:hover {
+    color: var(--sabor-primary, #3B56FF);
+    background: #f8f9fc;
+}
+
+@keyframes error403-enter {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes error403-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(59, 86, 255, 0.15);
+    }
+    50% {
+        transform: scale(1.04);
+        box-shadow: 0 0 0 10px rgba(59, 86, 255, 0);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .error403-card {
+        padding: 32px 20px 24px;
+    }
+
+    .error403-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .error403-col-main {
+        padding-right: 0;
+        border-right: none;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #eef1f9;
+    }
+
+    .error403-actions {
+        flex-direction: column;
+    }
+
+    .error403-btn {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .error403-card,
+    .error403-icon-wrap,
+    .error403-btn {
+        animation: none !important;
+        transition: none !important;
+    }
+}

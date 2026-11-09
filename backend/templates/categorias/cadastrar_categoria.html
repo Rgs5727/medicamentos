@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style/cadastro.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='style/categoria.css') }}" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="container py-5 d-flex justify-content-center">
+  <div class="card card-cadastro shadow-sm border-0">
+    <div class="card-body p-4 p-md-5">
+      <div class="header-cadastro mb-4">
+        <h3 class="fw-bold text-dark">
+          {% if categoria %}Editar Categoria{% else %}Cadastrar Categoria{% endif %}
+        </h3>
+        <p class="text-muted small">
+          {% if categoria %}Atualize o nome da categoria.{% else %}Adicione uma nova categoria ao catálogo.{% endif %}
+        </p>
+      </div>
+
+      <div id="msg" class="mb-3"></div>
+
+      <form id="form-categoria" data-categoria-id="{{ categoria.id_categoria if categoria else '' }}">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 col-md-10 mb-4">
+            <label class="form-label">Nome da categoria <span class="text-danger">*</span></label>
+            <input type="text" name="nome" class="form-control" placeholder="Ex: Analgésico"
+              value="{{ categoria.nome_categoria if categoria else '' }}" required />
+          </div>
+          <div class="col-lg-8 col-md-10 mb-4"></div>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary btn-save flex-fill py-2 fw-bold">
+            {% if categoria %}
+              Atualizar Categoria
+            {% else %}
+              Salvar Categoria
+            {% endif %}
+          </button>
+          <a href="{{ url_for('categorias.listar_categorias') }}" class="btn btn-light border flex-fill py-2">Cancelar</a>
+        </div>
+      </form>
+
+      <hr class="my-5" />
+      <h4 class="fw-bold mb-4">Categorias Existentes</h4>
+
+      <!-- preenchido via JS (categorias.js) a partir de GET /api/categorias -->
+      <div id="categorias-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
+        data-usuario-adm="{{ 'true' if session.get('adm') else 'false' }}">
+        <div class="col-12 text-center py-5" id="categorias-empty-state">
+          <p class="text-muted italic">Carregando categorias...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/categorias.js') }}"></script>
+{% endblock extra_js %}

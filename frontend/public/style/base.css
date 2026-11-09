@@ -1,0 +1,461 @@
+/* ==========================================================================
+   Sabør Farmácia — estilos globais (navbar, footer, toasts, utilitários)
+   ========================================================================== */
+
+:root {
+    --sabor-primary: #3B56FF;
+    --sabor-primary-dark: #2f45d4;
+    --sabor-primary-light: #eef1ff;
+    --sabor-bg-soft: #F3F6FF;
+    --sabor-text: #1a1d26;
+    --sabor-text-muted: #6b7280;
+    --sabor-radius: 16px;
+    --sabor-radius-lg: 24px;
+    --sabor-shadow: 0 8px 32px rgba(59, 86, 255, 0.08);
+    --sabor-shadow-nav: 0 4px 24px rgba(26, 29, 38, 0.06);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: var(--sabor-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+body.has-fixed-nav {
+    padding-top: 100px;
+}
+
+@media (max-width: 991.98px) {
+    body.has-fixed-nav {
+        padding-top: 88px;
+    }
+}
+
+/* --- Navbar flutuante --- */
+.navbar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    padding: 12px 16px 0;
+    pointer-events: none;
+}
+
+.navbar-sabor {
+    pointer-events: auto;
+    background: #ffffff;
+    border-radius: var(--sabor-radius-lg);
+    box-shadow: var(--sabor-shadow-nav);
+    padding: 10px 20px;
+    max-width: 1320px;
+    margin: 0 auto;
+}
+
+.navbar-sabor .navbar-brand {
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--sabor-text);
+    letter-spacing: -0.3px;
+}
+
+.navbar-sabor .navbar-brand img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-weight: 800;
+    color: var(--sabor-text);
+    letter-spacing: -0.5px;
+}
+
+.navbar-sabor .nav-link {
+    color: var(--sabor-text) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 8px 14px !important;
+    border-radius: 10px;
+    transition: color 0.2s, background 0.2s;
+}
+
+.navbar-sabor .nav-link:hover,
+.navbar-sabor .nav-link:focus {
+    color: var(--sabor-primary) !important;
+    background: var(--sabor-primary-light);
+}
+
+.navbar-sabor .navbar-toggler {
+    border: none;
+    padding: 4px 8px;
+}
+
+.navbar-sabor .navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-sabor .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231a1d26' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Busca na navbar */
+.navbar-search-form {
+    display: flex;
+    align-items: stretch;
+    background: #f4f6fb;
+    border-radius: 14px;
+    overflow: hidden;
+    min-width: 200px;
+    max-width: 280px;
+}
+
+.navbar-search-form input {
+    border: none;
+    background: transparent;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    outline: none;
+    flex: 1;
+    min-width: 0;
+}
+
+.navbar-search-form input::placeholder {
+    color: #9ca3af;
+}
+
+.navbar-search-btn {
+    background: var(--sabor-primary);
+    border: none;
+    color: #fff;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.navbar-search-btn:hover {
+    background: var(--sabor-primary-dark);
+}
+
+/* Favoritos */
+.navbar-fav-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    color: var(--sabor-text);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.navbar-fav-link:hover {
+    background: var(--sabor-primary-light);
+    color: var(--sabor-primary);
+}
+
+.navbar-fav-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    background: var(--sabor-primary);
+    color: #fff;
+    border-radius: 50px;
+    border: 2px solid #fff;
+}
+
+/* Botões auth */
+.btn-auth {
+    padding: 8px 18px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.btn-auth.login {
+    background: #ffffff;
+    color: var(--sabor-primary);
+    border: 2px solid var(--sabor-primary);
+}
+
+.btn-auth.login:hover {
+    background: var(--sabor-primary-light);
+    transform: translateY(-1px);
+}
+
+.btn-auth.register {
+    background: var(--sabor-primary);
+    color: #ffffff;
+    border: 2px solid var(--sabor-primary);
+}
+
+.btn-auth.register:hover {
+    background: var(--sabor-primary-dark);
+    border-color: var(--sabor-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 86, 255, 0.35);
+}
+
+.btn-auth.logout {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border: none;
+}
+
+.btn-auth.logout:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.35);
+}
+
+/* Toasts */
+.custom-toast {
+    pointer-events: auto;
+    position: relative;
+    z-index: 9999;
+    border: none !important;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: #ffffff !important;
+    margin-bottom: 10px;
+    animation: slideIn 0.4s ease-out;
+}
+
+.custom-toast.alert-success { background-color: #10b981 !important; }
+.custom-toast.alert-danger { background-color: #ef4444 !important; }
+.custom-toast.alert-warning { background-color: #f59e0b !important; }
+.custom-toast.alert-info { background-color: var(--sabor-primary) !important; }
+
+.custom-toast .flex-grow-1 { font-weight: 500; }
+
+.custom-toast .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+    box-shadow: none;
+}
+
+.custom-toast .btn-close:hover { opacity: 1; }
+.custom-toast i { font-size: 1.1rem; opacity: 0.9; }
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(60px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.toast-container--left .custom-toast {
+    animation: slideInLeft 0.4s ease-out;
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.btn-close {
+    position: relative;
+    z-index: 10;
+    opacity: 0.8;
+}
+
+.btn-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Conteúdo principal */
+.main-content {
+    min-height: 70vh;
+}
+
+/* Footer */
+.footer {
+    padding: 40px 0 24px;
+    background: #fafbff;
+    margin-top: 0;
+}
+
+.footer-line {
+    width: 60px;
+    margin: 0 auto 16px;
+    border-top: 3px solid var(--sabor-primary);
+    opacity: 0.5;
+}
+
+.footer-text {
+    color: var(--sabor-text-muted);
+    font-size: 0.85rem;
+}
+
+/* Avatar usuário logado */
+.avatar-link {
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.avatar-link:hover { transform: scale(1.06); }
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--sabor-primary-light), #dce4ff);
+    color: var(--sabor-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(59, 86, 255, 0.15);
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+/* Responsivo navbar */
+@media (max-width: 1199.98px) {
+    .navbar-search-form {
+        max-width: 100%;
+        width: 100%;
+        margin: 12px 0;
+    }
+
+    .navbar-sabor .navbar-nav {
+        padding-top: 8px;
+    }
+
+    .navbar-auth-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px !important;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #eef1f9;
+    }
+
+    .btn-auth {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar-wrapper {
+        padding: 8px 10px 0;
+    }
+
+    .navbar-sabor {
+        padding: 8px 14px;
+        border-radius: 18px;
+    }
+}
+:root {
+    --admin-bg: rgba(255, 255, 255, 0.65);
+    --admin-border: rgba(255, 255, 255, 0.4);
+    --admin-shadow: rgba(0, 0, 0, 0.1);
+    --admin-text: #333333;
+    --admin-hover: rgba(0, 0, 0, 0.05);
+    --status-warning: #f59e0b;
+}
+
+/* Estrutura da Side-bar */
+.admin-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+    z-index: 9999;
+    background: var(--admin-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-left: 1px solid var(--admin-border);
+    box-shadow: -5px 0 20px var(--admin-shadow);
+    display: flex;
+    flex-direction: column;
+    
+    /* Animação de entrada/saída */
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+}
+
+/* Classe que o JavaScript vai adicionar para esconder a barra */
+.admin-sidebar.hidden {
+    transform: translateX(100%);
+}
+
+.admin-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--admin-text);
+}
+
+.admin-sidebar-nav { padding: 1rem 0; }
+.admin-sidebar-nav ul { list-style: none; padding: 0; margin: 0; }
+.nav-section-title { padding: 1rem 1.5rem 0.5rem; font-size: 0.75rem; text-transform: uppercase; color: #666; font-weight: bold; }
+.admin-link { display: flex; align-items: center; padding: 0.75rem 1.5rem; color: var(--admin-text); text-decoration: none; transition: 0.2s; }
+.admin-link:hover { background: var(--admin-hover); padding-left: 1.75rem; }
+
+.badge { margin-left: auto; padding: 0.25rem 0.5rem; border-radius: 999px; font-size: 0.75rem; color: #fff; background-color: var(--status-warning); }
+
+/* Botão Toggle Flutuante (Agora visível também no desktop) */
+.admin-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9998; /* Fica uma camada atrás da sidebar */
+    background: var(--admin-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--admin-border);
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 6px var(--admin-shadow);
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--admin-text);
+    transition: 0.2s;
+}
+
+.admin-toggle-btn:hover {
+    background: white;
+}
+
+.admin-toggle-btn.has-pending::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 10px;
+    height: 10px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.35);
+}
+
+@media (max-width: 768px) {
+    .admin-sidebar { width: 100%; }
+}

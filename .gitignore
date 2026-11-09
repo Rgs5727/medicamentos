@@ -1,14 +1,24 @@
-# Ambiente virtual
+# Ambiente virtual do Python
 venv/
 env/
 
-# Variáveis de ambiente (SENHAS!)
+# Variáveis de ambiente (SENHAS!) — nunca vão para o GitHub
 .env
 
 # Cache do Python
 __pycache__/
 *.pyc
 *.pyo
+
+# React / Vite (frontend): dependências e versão compilada
+node_modules/
+dist/
+
+# Imagens enviadas pelos usuários (ficam só no computador de cada um)
+backend/static/uploads/
+
+# Backups do banco feitos durante a migração
+backup_banco/
 
 # Arquivos do sistema
 .DS_Store

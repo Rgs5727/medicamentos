@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/error403.css') }}" />
+{% endblock extra_css %}
+
+{% block content %}
+{% set logado = session.get('usuario_email') %}
+{% set eh_adm = session.get('adm') %}
+
+<section class="error403-page">
+  <div class="error403-card">
+    <div class="error403-grid">
+      <div class="error403-col error403-col-main">
+        <div class="error403-icon-wrap" aria-hidden="true">
+          <i class="bi bi-shield-lock"></i>
+        </div>
+
+        <p class="error403-code">403</p>
+
+        {% if not logado %}
+          <span class="error403-badge error403-badge-guest">Visitante</span>
+          <h1 class="error403-title">Login necessário</h1>
+          <p class="error403-lead">
+            Esta área é restrita. Entre na sua conta ou crie um cadastro para continuar.
+          </p>
+        {% elif eh_adm %}
+          <span class="error403-badge error403-badge-admin">Administrador</span>
+          <h1 class="error403-title">Recurso indisponível</h1>
+          <p class="error403-lead">
+            Você está logado como administrador, mas este recurso não pôde ser acessado agora.
+          </p>
+        {% else %}
+          <span class="error403-badge error403-badge-user">Usuário</span>
+          <h1 class="error403-title">Permissão insuficiente</h1>
+          <p class="error403-lead">
+            Sua conta não tem autorização para acessar esta área. Algumas seções são exclusivas para administradores.
+          </p>
+        {% endif %}
+      </div>
+
+      <div class="error403-col error403-col-info">
+        <h2 class="error403-subtitle">O que pode ter acontecido</h2>
+
+        {% if not logado %}
+          <ul class="error403-reasons">
+            <li><i class="bi bi-check2-circle"></i> Você ainda não está autenticado</li>
+            <li><i class="bi bi-check2-circle"></i> A página exige uma sessão ativa</li>
+            <li><i class="bi bi-check2-circle"></i> Sua sessão pode ter expirado</li>
+          </ul>
+        {% elif eh_adm %}
+          <ul class="error403-reasons">
+            <li><i class="bi bi-check2-circle"></i> O conteúdo pode ter sido removido</li>
+            <li><i class="bi bi-check2-circle"></i> O link pode estar desatualizado</li>
+            <li><i class="bi bi-check2-circle"></i> Houve um problema ao validar sua sessão</li>
+          </ul>
+        {% else %}
+          <ul class="error403-reasons">
+            <li><i class="bi bi-check2-circle"></i> Seu perfil é de usuário comum</li>
+            <li><i class="bi bi-check2-circle"></i> Apenas ADMs podem acessar esta página</li>
+            <li><i class="bi bi-check2-circle"></i> Verifique se entrou com a conta correta</li>
+          </ul>
+        {% endif %}
+
+        <div class="error403-tip">
+          <i class="bi bi-lightbulb"></i>
+          {% if not logado %}
+            <span>Faça login para acessar seu perfil, favoritos e outras áreas protegidas.</span>
+          {% elif eh_adm %}
+            <span>Tente voltar ao painel admin ou retornar à página anterior.</span>
+          {% else %}
+            <span>Se precisar de acesso administrativo, entre em contato com a equipe responsável.</span>
+          {% endif %}
+        </div>
+
+        <div class="error403-actions">
+          {% if not logado %}
+            <a href="{{ url_for('usuarios.login') }}" class="error403-btn error403-btn-primary">
+              <i class="bi bi-box-arrow-in-right"></i> Entrar
+            </a>
+            <a href="{{ url_for('usuarios.register') }}" class="error403-btn error403-btn-secondary">
+              <i class="bi bi-person-plus"></i> Criar conta
+            </a>
+          {% else %}
+            <a href="{{ url_for('remedies.listar_remedios') }}" class="error403-btn error403-btn-primary">
+              <i class="bi bi-house-door"></i> Ir para o início
+            </a>
+            <a href="{{ url_for('usuarios.usuario_detalhe') }}" class="error403-btn error403-btn-secondary">
+              <i class="bi bi-person"></i> Meu perfil
+            </a>
+          {% endif %}
+          <a href="#" onclick="history.back(); return false;" class="error403-btn error403-btn-ghost">
+            <i class="bi bi-arrow-left"></i> Voltar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

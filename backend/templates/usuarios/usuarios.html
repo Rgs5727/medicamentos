@@ -1,0 +1,468 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+/* ==========================================================================
+   Painel de Gerenciamento de Usuários — Estilo Avançado
+   ========================================================================== */
+
+.page-users {
+    animation: fadeInPage 0.4s ease-out;
+}
+
+/* --- Cabeçalho de Usuários --- */
+.users-header-section {
+    position: relative;
+    background: linear-gradient(135deg, #f3f6ff 0%, #eef2ff 50%, #f8f5ff 100%);
+    border-radius: 24px;
+    padding: 36px 32px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    border: 1px solid #eef1f9;
+}
+
+.users-header-flex {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.users-header-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: rgba(59, 86, 255, 0.1);
+    color: var(--sabor-primary, #3B56FF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px rgba(59, 86, 255, 0.12);
+}
+
+.users-title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 800;
+    color: var(--sabor-text, #1a1d26);
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+}
+
+/* --- Controles de Busca e Filtro --- */
+.users-controls {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(26, 29, 38, 0.04);
+    border: 1px solid #f0f2f8;
+    margin-bottom: 32px;
+}
+
+.search-input-wrap {
+    position: relative;
+}
+
+.search-input-wrap i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a1a8b3;
+    font-size: 1.1rem;
+}
+
+.search-input-wrap .form-control {
+    padding-left: 46px;
+    height: 48px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.search-input-wrap .form-control:focus {
+    border-color: var(--sabor-primary, #3B56FF);
+    box-shadow: 0 0 0 4px rgba(59, 86, 255, 0.1);
+}
+
+.filter-btn-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-filter {
+    background: #f4f6fa;
+    color: var(--sabor-text-muted, #6b7280);
+    border: 1px solid transparent;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btn-filter:hover {
+    background: #eef2ff;
+    color: var(--sabor-primary, #3B56FF);
+}
+
+.btn-filter.active {
+    background: var(--sabor-primary, #3B56FF);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(59, 86, 255, 0.25);
+}
+
+/* --- Grid de Usuários e Cards --- */
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.user-card-btn {
+    background: #fff;
+    border: 1px solid #f0f2f8;
+    border-radius: 20px;
+    padding: 24px;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(26, 29, 38, 0.04);
+    transition: all 0.25s ease;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.user-card-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(59, 86, 255, 0.12);
+    border-color: rgba(59, 86, 255, 0.2);
+}
+
+.user-card-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #eef2ff 0%, #dce4ff 100%);
+    color: var(--sabor-primary, #3B56FF);
+    font-weight: 700;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.user-card-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--sabor-text, #1a1d26);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-card-email {
+    font-size: 0.85rem;
+    color: var(--sabor-text-muted, #6b7280);
+    margin-bottom: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge-role {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    width: fit-content;
+}
+
+.badge-role.adm {
+    background-color: rgba(59, 86, 255, 0.1);
+    color: var(--sabor-primary, #3B56FF);
+}
+
+.badge-role.comum {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+/* Badge do usuário atual conectado */
+.badge-self {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 0.7rem;
+    background: #e6f7ed;
+    color: #1f9254;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+/* --- Detalhes nos Modais Administrativos --- */
+.modal-content-custom {
+    border-radius: 24px;
+    border: none;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    overflow: hidden;
+}
+
+.modal-user-profile {
+    text-align: center;
+    padding: 24px 0 12px;
+}
+
+.modal-user-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--sabor-primary, #3B56FF);
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 8px 20px rgba(59, 86, 255, 0.25);
+}
+
+.modal-info-group {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #f1f5f9;
+}
+
+.modal-info-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+.modal-info-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--sabor-text, #1a1d26);
+}
+
+/* --- Estado de Busca Sem Resultados --- */
+.users-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 24px;
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #f0f2f8;
+    color: var(--sabor-text-muted, #6b7280);
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<div class="container py-5 page-users">
+
+    <header class="users-header-section">
+        <div class="users-header-flex">
+            <div class="users-header-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div>
+                <h1 class="users-title">Controle de Usuários</h1>
+                <p class="text-muted m-0">Gerencie permissões, papéis administrativos e contas cadastradas na plataforma.</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="users-controls">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-6">
+                <div class="search-input-wrap">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="userSearchInput" class="form-control" placeholder="Buscar usuário por nome ou e-mail..." autocomplete="off">
+                </div>
+            </div>
+            <div class="col-lg-6 text-lg-end">
+                <div class="filter-btn-group justify-content-lg-end">
+                    <button class="btn-filter active" onclick="filterRole('all', this)">Todos</button>
+                    <button class="btn-filter" onclick="filterRole('adm', this)">Administradores</button>
+                    <button class="btn-filter" onclick="filterRole('comum', this)">Usuários Comuns</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="users-grid" id="usersContainer">
+        {% for u in usuarios %}
+        <div class="user-card-item" data-name="{{ u.nome_user|lower }}" data-email="{{ u.email|lower }}" data-role="{{ u.tipo }}">
+            
+            <button type="button" class="user-card-btn" data-bs-toggle="modal" data-bs-target="#userModal{{ loop.index }}">
+                
+                {% if session.get('usuario_email') == u.email %}
+                    <span class="badge-self">Você</span>
+                {% endif %}
+
+                <div class="user-card-avatar">
+                    {{ u.nome_user[0]|upper }}
+                </div>
+
+                <h3 class="user-card-name">{{ u.nome_user }}</h3>
+                <p class="user-card-email">{{ u.email }}</p>
+
+                {% if u.tipo == 'adm' %}
+                    <span class="badge-role adm"><i class="bi bi-shield-lock-fill"></i> Administrador</span>
+                {% else %}
+                    <span class="badge-role comum"><i class="bi bi-person-fill"></i> Usuário</span>
+                {% endif %}
+            </button>
+
+            <div class="modal fade" id="userModal{{ loop.index }}" tabularindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-content-custom">
+                        
+                        <div class="modal-header border-0 pb-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        </div>
+
+                        <div class="modal-body px-4 pt-0">
+                            <div class="modal-user-profile">
+                                <div class="modal-user-avatar">
+                                    {{ u.nome_user[0]|upper }}
+                                </div>
+                                <h4 class="fw-bold mb-1 text-dark">{{ u.nome_user }}</h4>
+                                <span class="badge rounded-pill {% if u.tipo == 'adm' %}bg-primary{% else %}bg-secondary{% endif %} bg-opacity-10 {% if u.tipo == 'adm' %}text-primary{% else %}text-secondary{% endif %} px-3 py-1 fw-bold fs-7">
+                                    {% if u.tipo == 'adm' %}Administrador{% else %}Usuário Padrão{% endif %}
+                                </span>
+                            </div>
+
+                            <div class="mt-4">
+                                <div class="modal-info-group">
+                                    <div class="modal-info-label">Nome Completo</div>
+                                    <div class="modal-info-value">{{ u.nome_user }}</div>
+                                </div>
+
+                                <div class="modal-info-group">
+                                    <div class="modal-info-label">Endereço de E-mail</div>
+                                    <div class="modal-info-value"><i class="bi bi-envelope me-2 text-muted"></i>{{ u.email }}</div>
+                                </div>
+
+                                <div class="modal-info-group">
+                                    <div class="modal-info-label">Status da Conta</div>
+                                    <div class="modal-info-value">
+                                        <span class="text-success fw-bold"><i class="bi bi-circle-fill me-2 fs-8"></i>Ativo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer bg-light border-0 p-4 justify-content-between">
+                            <div class="w-100 text-center">
+                                {% if session.get('usuario_email') != u.email %}
+                                    {% if u.tipo != 'adm' %}
+                                        <form action="{{ url_for('usuarios.promover') }}" method="post" class="d-block w-100">
+                                            <input type="hidden" name="email" value="{{ u.email }}" />
+                                            <button type="submit" class="btn btn-primary rounded-pill w-100 py-2 fw-bold shadow-sm">
+                                                <i class="bi bi-shield-plus me-2"></i>Promover a ADM
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <form action="{{ url_for('usuarios.rebaixar') }}" method="post" class="d-block w-100">
+                                            <input type="hidden" name="email" value="{{ u.email }}" />
+                                            <button type="submit" class="btn btn-outline-danger rounded-pill w-100 py-2 fw-bold">
+                                                <i class="bi bi-shield-minus me-2"></i>Remover Cargo ADM
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                {% else %}
+                                    <p class="text-muted small m-0"><i class="bi bi-info-circle me-1"></i>Você não pode alterar suas próprias permissões.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+
+        <div class="users-empty-state d-none" id="emptyState">
+            <i class="bi bi-person-x fs-1 opacity-50 d-block mb-2"></i>
+            <h5>Nenhum usuário encontrado</h5>
+            <p class="text-muted m-0">Verifique os termos digitados ou mude a seleção do filtro.</p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Variáveis de controle de Filtro Dinâmico
+let currentRoleFilter = 'all';
+
+const searchInput = document.getElementById('userSearchInput');
+const userCards = document.querySelectorAll('.user-card-item');
+const emptyState = document.getElementById('emptyState');
+
+// Escuta evento de digitação na busca
+searchInput.addEventListener('input', () => {
+    applyFilters();
+});
+
+// Manipula seleção de filtros de nível/cargo
+function filterRole(role, btnElement) {
+    document.querySelectorAll('.btn-filter').forEach(btn => btn.classList.remove('active'));
+    btnElement.classList.add('active');
+    currentRoleFilter = role;
+    applyFilters();
+}
+
+// Junta a busca textual com os botões de filtro
+function applyFilters() {
+    const searchTerm = searchInput.value.toLowerCase().strip ? searchInput.value.toLowerCase().strip() : searchInput.value.toLowerCase();
+    let visibleCount = 0;
+
+    userCards.forEach(card => {
+        const name = card.getAttribute('data-name');
+        const email = card.getAttribute('data-email');
+        const role = card.getAttribute('data-role');
+
+        const matchesSearch = name.includes(searchTerm) || email.includes(searchTerm);
+        const matchesRole = currentRoleFilter === 'all' || role === currentRoleFilter;
+
+        if (matchesSearch && matchesRole) {
+            card.classList.remove('d-none');
+            visibleCount++;
+        } else {
+            card.classList.add('d-none');
+        }
+    });
+
+    if (visibleCount === 0) {
+        emptyState.classList.remove('d-none');
+    } else {
+        emptyState.classList.add('d-none');
+    }
+}
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;600;800&display=swap");
+
+:root {
+    --bg-color: #ffffff;
+    --card-bg: #ffffff;
+    --accent-gray: #f1f5f9;
+    --text-main: #1e293b;
+    --glow: rgba(0, 0, 0, 0.05);
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: "Plus Jakarta Sans", sans-serif;
+    overflow-x: hidden;
+    color: var(--text-main);
+}
+
+.particle {
+    position: fixed;
+    top: -50px;
+    z-index: -1;
+    user-select: none;
+    pointer-events: none;
+    animation: fall linear infinite;
+    opacity: 0.15;
+    font-size: 1.5rem;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(105vh) rotate(360deg);
+    }
+}
+
+.main-container {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 20px;
+    position: relative;
+}
+
+.header-section {
+    margin-bottom: 60px;
+}
+
+.brand-name {
+    font-weight: 800;
+    font-size: 3.5rem;
+    letter-spacing: -2px;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.accordion {
+    border: none !important;
+}
+
+.accordion-item {
+    background: var(--card-bg) !important;
+    border: 1px solid #eee !important;
+    border-radius: 20px !important;
+    margin-bottom: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px var(--glow);
+}
+
+.accordion-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px var(--glow);
+    border-color: #ddd !important;
+}
+
+.accordion-button {
+    padding: 30px;
+    font-weight: 700;
+    background: transparent !important;
+    color: #000 !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 1.2rem;
+}
+
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E") !important;
+}
+
+.accordion-body {
+    padding: 0 35px 35px 35px;
+    color: #64748b;
+    line-height: 1.8;
+    font-size: 1.05rem;
+}
+
+.dev-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.dev-tag {
+    background: #000;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.dev-tag:hover {
+    background: #333;
+    transform: translateY(-5px);
+}
+
+.disclaimer-box {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 20px;
+    margin-top: 20px;
+    font-style: italic;
+    font-size: 0.85rem;
+}

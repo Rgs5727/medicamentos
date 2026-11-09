@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SabØr FⱯrmⱯciⱯ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/base.css') }}" />
+  {% block extra_css %}{% endblock extra_css %}
+</head>
+
+<body class="{% block body_class %}has-fixed-nav{% endblock body_class %}">
+  <!-- Navbar moderna fixa (visual da referência) -->
+  <div class="navbar-wrapper">
+    <nav class="navbar navbar-expand-xl navbar-light navbar-sabor">
+      <div class="container-fluid px-0 px-xl-2">
+        <a class="navbar-brand d-flex align-items-center" href="{{ url_for('remedies.listar_remedios') }}">
+          <img src="{{ url_for('static', filename='image/vitamina.png') }}" alt="Logo" class="me-2"
+            onerror="this.style.display='none'" />
+          <i class="bi bi-capsule-pill text-primary me-2 d-none logo-fallback-icon"
+            style="color: #3B56FF !important; font-size: 1.5rem;"></i>
+          <span class="logo-text">SabØr FⱯrmⱯciⱯ</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+          aria-controls="menu" aria-expanded="false" aria-label="Alternar menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+          <ul class="navbar-nav mx-auto mb-2 mb-xl-0 align-items-xl-center">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('remedies.listar_remedios') }}">Início</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('remedies.listar_remedios') }}#medicamentos">Medicamentos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('categorias.listar_categorias') }}">Categorias</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('remedies.listar_remedios') }}#como-funciona">Como funciona</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('remedies.sobre') }}">Sobre nós</a>
+            </li>
+          </ul>
+
+          <div class="d-flex flex-column flex-xl-row align-items-xl-center gap-2 gap-xl-3 ms-xl-auto">
+            <!--
+              A PARTIR DAQUI: nada mais é decidido pelo Jinja/session.
+              O HTML abaixo já nasce no estado "deslogado" (formulário de
+              busca escondido, avatar/sair escondidos, entrar/cadastrar
+              visíveis). Quem troca esse estado para "logado" é o
+              JavaScript (static/js/menu.js), perguntando pro servidor
+              com GET /api/v1/auth/me — nunca lendo token nem sessão
+              direto aqui no template. Isso é o que a especificação do
+              3º bimestre pede no item 1.5 ("Menu conforme o usuário").
+            -->
+            <form id="navbar-search-form" action="{{ url_for('remedies.listar_remedios') }}#catalogo" method="GET"
+              class="navbar-search-form d-none">
+              <input type="text" name="q" placeholder="Buscar medicamentos..." value="{{ request.args.get('q', '') }}"
+                aria-label="Buscar medicamentos" />
+              <button type="submit" class="navbar-search-btn" aria-label="Buscar">
+                <i class="bi bi-search"></i>
+              </button>
+            </form>
+
+            <a id="navbar-fav-link" href="{{ url_for('usuarios.usuario_detalhe') }}" class="navbar-fav-link d-none"
+              title="Meus favoritos" aria-label="Favoritos">
+              <i class="bi bi-heart fs-5"></i>
+              {% block favorites_badge %}{% endblock favorites_badge %}
+            </a>
+
+            <div class="d-flex gap-2 align-items-center navbar-auth-group">
+              <a id="navbar-avatar-link" href="{{ url_for('usuarios.usuario_detalhe') }}" class="avatar-link d-none"
+                title="Minha conta">
+                <div class="avatar-circle" id="navbar-avatar-letter">U</div>
+              </a>
+              <a id="navbar-logout-link" href="{{ url_for('usuarios.logout') }}" class="btn-auth logout d-none">Sair</a>
+              <a id="navbar-login-link" href="{{ url_for('usuarios.login') }}" class="btn-auth login">Entrar</a>
+              <a id="navbar-register-link" href="{{ url_for('usuarios.register') }}" class="btn-auth register">Cadastrar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 p-3 end-0" id="toast-container" style="z-index: 1055">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="custom-toast alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      <div class="d-flex align-items-center">
+        {% if category == 'success' %}
+        <i class="bi bi-check-circle-fill me-2"></i>
+        {% elif category == 'danger' %}
+        <i class="bi bi-x-circle-fill me-2"></i>
+        {% else %}
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {% endif %}
+        <div class="flex-grow-1">{{ message }}</div>
+      </div>
+      <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
+
+  <main class="main-content">{% block content %}{% endblock content %}</main>
+  
+  <!--
+    O botão e o painel de admin abaixo SEMPRE existem no HTML agora (não
+    tem mais um "if session admin" no Jinja), só que começam escondidos
+    (classe d-none). menu.js decide se mostra ou não, depois de perguntar
+    pro servidor (GET /api/v1/auth/me) se quem está vendo a página é
+    administrador. Sem isso, não teria como saber — a página chega vazia
+    e o Jinja não pode mais tomar essa decisão sozinho.
+
+    Observação: o selo "Novos" de pendências (tem_moderacao_pendente)
+    dependia de uma consulta no banco feita pelo Flask antes de renderizar
+    a página — isso não existe mais aqui porque a página não recebe mais
+    dado nenhum do banco. Enquanto o painel de moderação (Aluno 3) não
+    tiver uma rota de API para "quantos pendentes existem", esse selo
+    fica de fora do menu; quem entrar no painel de moderação continua
+    vendo os pendentes normalmente lá dentro.
+  -->
+
+  <button class="admin-toggle-btn d-none" id="adminToggleBtn">
+    Gerenciar Admin
+  </button>
+
+  <aside class="admin-sidebar hidden d-none" id="adminSidebar">
+    <div class="admin-sidebar-header">
+      <h3>Painel Admin</h3>
+      <button id="closeAdminSidebar" class="close-btn" aria-label="Fechar Painel">&times;</button>
+    </div>
+
+    <nav class="admin-sidebar-nav">
+      <ul>
+        <li><a href="{{ url_for('usuarios.menu') }}" class="admin-link">Menu do Administrador</a></li>
+
+        <li class="nav-section-title">Moderação</li>
+        <li>
+          <a href="{{ url_for('usuarios.moderacao') }}" class="admin-link warning">
+            Pendentes
+          </a>
+        </li>
+
+        <li class="nav-section-title">Gerenciamento</li>
+        <li><a href="{{ url_for('usuarios.usuarios') }}" class="admin-link">Usuários</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+
+  <footer class="footer text-center">
+    <div class="container">
+      <hr class="footer-line" />
+      <p class="footer-text mb-0">
+        &copy; 2026 SabØr FⱯrmⱯciⱯ — Todos os direitos reservados
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!--
+    api.js é carregado aqui, no esqueleto compartilhado, porque QUALQUER
+    página do site precisa saber ler/mandar o token (mesmo uma página que
+    não é do Aluno 1). menu.js usa as funções de api.js para decidir o
+    que mostrar no menu de cima.
+  -->
+  <script src="{{ url_for('static', filename='js/api.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById('adminSidebar');
+        const btnClose = document.getElementById('closeAdminSidebar');
+        const btnOpen = document.getElementById('adminToggleBtn');
+
+        // 1. Garante que o painel inicie SEMPRE escondido
+        if (sidebar) {
+            sidebar.classList.add('hidden');
+        }
+
+        // 2. Ação de fechar o painel
+        if (btnClose && sidebar) {
+            btnClose.addEventListener('click', function() {
+                sidebar.classList.add('hidden');
+            });
+        }
+
+        // 3. Ação de abrir o painel (somente ao clicar)
+        if (btnOpen && sidebar) {
+            btnOpen.addEventListener('click', function() {
+                sidebar.classList.remove('hidden');
+            });
+        }
+    });
+</script>
+{% block extra_js %}  {% endblock extra_js %}
+
+
+
+</body>
+
+</html>

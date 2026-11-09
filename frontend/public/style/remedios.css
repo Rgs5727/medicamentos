@@ -1,0 +1,569 @@
+/* ==========================================================================
+   Página inicial — Hero, carrosséis, como funciona, catálogo
+   ========================================================================== */
+
+.page-home .main-content {
+    padding-top: 0;
+}
+
+/* --- Hero --- */
+.hero-section {
+    position: relative;
+    background: linear-gradient(135deg, #f3f6ff 0%, #eef2ff 50%, #f8f5ff 100%);
+    border-radius: 0 0 48px 48px;
+    padding: 48px 0 64px;
+    overflow: hidden;
+    margin-top: -20px;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(59, 86, 255, 0.06) 0%, transparent 70%);
+    top: -100px;
+    right: -80px;
+    pointer-events: none;
+}
+
+.hero-title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--sabor-text, #1a1d26);
+    margin-bottom: 20px;
+}
+
+.hero-title .text-primary-brand {
+    color: var(--sabor-primary, #3B56FF);
+}
+
+.hero-description {
+    font-size: 1.05rem;
+    color: var(--sabor-text-muted, #6b7280);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 28px;
+}
+
+.btn-hero-cta {
+    background: var(--sabor-primary, #3B56FF);
+    color: #fff;
+    font-weight: 600;
+    padding: 14px 32px;
+    border-radius: 14px;
+    border: none;
+    font-size: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-hero-cta:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(59, 86, 255, 0.35);
+}
+
+.hero-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 28px;
+    margin-top: 36px;
+}
+
+.hero-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--sabor-text, #1a1d26);
+}
+
+.hero-feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(59, 86, 255, 0.1);
+    color: var(--sabor-primary, #3B56FF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+/* Área da imagem hero + decorações */
+.hero-visual {
+    position: relative;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-image-slot {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+}
+
+.hero-image-slot img,
+.hero-main-image {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.hero-main-image {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Decorações flutuantes */
+.hero-deco {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    animation: floatDeco 6s ease-in-out infinite;
+}
+
+.hero-deco.capsule-1 {
+    width: 48px;
+    height: 20px;
+    background: linear-gradient(90deg, #fff 50%, var(--sabor-primary, #3B56FF) 50%);
+    border-radius: 50px;
+    top: 15%;
+    left: 8%;
+    animation-delay: 0s;
+    box-shadow: 0 4px 12px rgba(59, 86, 255, 0.2);
+}
+
+.hero-deco.capsule-2 {
+    width: 36px;
+    height: 14px;
+    background: linear-gradient(90deg, var(--sabor-primary, #3B56FF) 50%, #fff 50%);
+    border-radius: 50px;
+    top: 55%;
+    right: 5%;
+    animation-delay: 1.5s;
+    opacity: 0.85;
+}
+
+.hero-deco.capsule-3 {
+    width: 28px;
+    height: 11px;
+    background: linear-gradient(90deg, #fff 45%, #a5b4fc 55%);
+    border-radius: 50px;
+    bottom: 20%;
+    left: 15%;
+    animation-delay: 2.5s;
+}
+
+.hero-deco.plus-1,
+.hero-deco.plus-2,
+.hero-deco.plus-3 {
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: rgba(59, 86, 255, 0.25);
+    line-height: 1;
+}
+
+.hero-deco.plus-1 { top: 25%; right: 18%; animation-delay: 0.8s; }
+.hero-deco.plus-2 { bottom: 30%; right: 25%; animation-delay: 2s; font-size: 1.25rem; }
+.hero-deco.plus-3 { top: 40%; left: 5%; animation-delay: 1.2s; font-size: 1.5rem; }
+
+@keyframes floatDeco {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+/* --- Seções com carrossel --- */
+.home-section {
+    padding: 56px 0;
+}
+
+.home-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    gap: 16px;
+}
+
+.home-section-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.home-section-title {
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 800;
+    color: var(--sabor-text, #1a1d26);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.link-ver-todas {
+    color: var(--sabor-primary, #3B56FF);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+}
+
+.link-ver-todas:hover {
+    color: var(--sabor-primary-dark, #2f45d4);
+    opacity: 0.85;
+}
+
+/* Swiper containers */
+.carousel-wrap {
+    position: relative;
+    padding: 0 4px;
+}
+
+.swiper-categorias,
+.swiper-medicamentos {
+    overflow: hidden;
+    padding: 8px 4px 24px;
+}
+
+.swiper-slide {
+    height: auto;
+}
+
+/* Card categoria */
+.category-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px 16px 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(26, 29, 38, 0.06);
+    border: 1px solid #f0f2f8;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(59, 86, 255, 0.12);
+    color: inherit;
+}
+
+.category-card-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #eef2ff, #dce4ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--sabor-primary, #3B56FF);
+}
+
+.category-card-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--sabor-text, #1a1d26);
+    margin: 0;
+}
+
+/* Card medicamento (carrossel) */
+.featured-product-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(26, 29, 38, 0.08);
+    border: 1px solid #f0f2f8;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.featured-product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(59, 86, 255, 0.12);
+}
+
+.featured-product-img-wrap {
+    height: 160px;
+    background: #f8f9fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.featured-product-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.featured-product-card:hover .featured-product-img-wrap img {
+    transform: scale(1.05);
+}
+
+.featured-product-body {
+    padding: 18px 18px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.featured-product-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--sabor-text, #1a1d26);
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.featured-product-meta {
+    font-size: 0.85rem;
+    color: var(--sabor-text-muted, #6b7280);
+    margin-bottom: 12px;
+}
+
+.featured-product-price {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--sabor-text, #1a1d26);
+    margin-top: auto;
+}
+
+.featured-product-price .promo-badge {
+    font-size: 0.7rem;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+.featured-fav-form {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
+}
+
+.featured-fav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.featured-fav-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Setas do carrossel */
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #eef1f9;
+    box-shadow: 0 4px 16px rgba(26, 29, 38, 0.1);
+    color: var(--sabor-primary, #3B56FF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s, box-shadow 0.2s;
+    font-size: 1.25rem;
+}
+
+.swiper-button-prev-custom:hover,
+.swiper-button-next-custom:hover {
+    background: var(--sabor-primary-light, #eef1ff);
+    box-shadow: 0 6px 20px rgba(59, 86, 255, 0.15);
+}
+
+.swiper-button-prev-custom {
+    left: -8px;
+}
+
+.swiper-button-next-custom {
+    right: -8px;
+}
+
+.swiper-button-prev-custom.swiper-button-disabled,
+.swiper-button-next-custom.swiper-button-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+@media (max-width: 767.98px) {
+    .swiper-button-prev-custom { left: 0; }
+    .swiper-button-next-custom { right: 0; }
+}
+
+/* --- Como funciona --- */
+.como-funciona-section {
+    background: linear-gradient(180deg, #fafbff 0%, #ffffff 100%);
+    padding: 64px 0 72px;
+}
+
+.step-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 36px 28px;
+    text-align: center;
+    height: 100%;
+    border: 1px solid #f0f2f8;
+    box-shadow: 0 4px 24px rgba(26, 29, 38, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.step-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(59, 86, 255, 0.1);
+}
+
+.step-card-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, var(--sabor-primary, #3B56FF), #5b73ff);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+}
+
+.step-card-title {
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+    color: var(--sabor-text, #1a1d26);
+}
+
+.step-card-text {
+    font-size: 0.95rem;
+    color: var(--sabor-text-muted, #6b7280);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* --- Catálogo completo (funcionalidade preservada) --- */
+.catalog-section {
+    padding: 48px 0 64px;
+    background: #fafbff;
+    border-radius: 32px 32px 0 0;
+    scroll-margin-top: 110px;
+}
+
+.catalog-header .form-control {
+    border-radius: 12px 0 0 12px;
+    border: 1px solid #e5e7eb;
+    padding: 10px 16px;
+}
+
+.catalog-search-form {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(26, 29, 38, 0.06);
+    background: #fff;
+}
+
+.catalog-search-form .btn-primary {
+    border-radius: 0 12px 12px 0;
+    background: var(--sabor-primary, #3B56FF);
+    border: none;
+    padding: 0 20px;
+}
+
+.product-card {
+    border-radius: 20px;
+    overflow: hidden;
+    border: none;
+    background: #fff;
+    transition: all 0.35s ease;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(26, 29, 38, 0.06);
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(59, 86, 255, 0.12);
+}
+
+.product-card img {
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.06);
+}
+
+.empty-state {
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--sabor-text-muted, #6b7280);
+}
+
+/* Responsivo hero */
+@media (max-width: 991.98px) {
+    .hero-section {
+        padding: 32px 0 48px;
+        border-radius: 0 0 32px 32px;
+    }
+
+    .hero-visual {
+        min-height: 240px;
+        margin-top: 32px;
+    }
+
+    .hero-features {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-features {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .home-section {
+        padding: 40px 0;
+    }
+}
